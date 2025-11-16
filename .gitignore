@@ -1,0 +1,14 @@
+# Mac System Files
+.DS_Store
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Optional: Ignore large raw data if you don't want it on GitHub
+# data/raw/
+# data/processed/
+EOT

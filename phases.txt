@@ -1,0 +1,311 @@
+# PART 1: The Feasibility Study (Do This Weekend)
+-------------------------------------------------
+
+Goal: A "go/no-go" decision. Can you get the 3 required pieces of data: Artist info, Feature info, and Lyrics?
+
+
+Phase 0.A: Setup & API Authentication (The First Hurdle)
+Get Your API Key:
+
+Go to genius.com/api-clients and register a new "API Client."
+
+This will give you a Client Access Token. This is your key.
+
+Create a New Environment:
+
+conda create -n genius_project python=3.10
+
+conda activate genius_project
+
+Install Libraries:
+
+You need a wrapper for the API and a scraper for the lyrics (since the API doesn't provide lyrics, only a link to the page).
+
+The lyricsgenius library is perfect for this. It handles both API authentication and lyric scraping in one package.
+
+pip install lyricsgenius
+
+You'll also need our analysis tools: pip install pandas networkx matplotlib
+
+
+Phase 0.B: The "Vertical Slice" Test (The Go/No-Go Moment)
+Create a new Jupyter Notebook (00_Feasibility_Test.ipynb) and try to execute these steps.
+
+Import & Authenticate:
+
+Import the library: import lyricsgenius
+
+Authenticate: token = 'YOUR_CLIENT_ACCESS_TOKEN'
+
+genius = lyricsgenius.Genius(token)
+
+Test 1: Can you get an artist?
+
+artist = genius.search_artist('Kendrick Lamar', max_songs=1, sort='popularity')
+
+print(artist.name)
+
+If this prints "Kendrick Lamar," you've successfully connected. (Checkpoint 1: API works)
+
+Test 2: Can you get song data (for A2)?
+
+song = artist.song('Money Trees')
+
+The song object contains the metadata. You need to inspect it to see if "Featured Artists" are available. Note: The lyricsgenius wrapper might not grab this explicitly.
+
+This is the most critical test. You may need to use the requests and BeautifulSoup libraries to scrape the song page URL (which song.url will give you) to find the "Featured Artists" manually.
+
+If you can write a short function that takes a song URL and scrapes "Jay Rock" from the "Money Trees" page, you have proven A2 data is possible. (Checkpoint 2: Feature data is scrapable)
+
+Test 3: Can you get lyric data (for A3)?
+
+print(song.lyrics)
+
+If this prints the full lyrics for "Money Trees," you are in an excellent position. (Checkpoint 3: Lyric data is scrapable)
+
+
+Your Go/No-Go Decision:
+
+GO: If you pass all 3 checkpoints, this project is 100% feasible and a fantastic choice. You can now write your proposal with extreme confidence.
+
+NO-GO: If you can't get the features or the lyrics, or if the API is a complete nightmare, don't waste your time. Fall back to your proven, high-quality Wikipedia project.
+
+
+
+# PART 2: The Full Project Roadmap (To Include in Your Proposal)
+----------------------------------------------------------------
+
+This is the "after" plan—the full methodology for your capstone project, broken into two distinct assignments.
+
+Assignment 2 (A2): The Network Analysis
+
+
+Phase 1: Data Collection & Network Construction
+
+Define Seed Set: Select 3-5 influential "seed" artists to start the crawl (e.g., Kendrick Lamar, Drake, J. Cole).
+
+Crawl Data:
+
+Write a script that gets all songs for these seed artists.
+
+For each song, scrape its page to get all "Featured Artists" and "Producers."
+
+Create a "1.5-degree" network: The network will include the seed artists and all the artists they featured or were featured by.
+
+Build Network:
+
+Nodes: Artists/Producers
+
+Edges: A collaboration (a feature or production credit).
+
+Save this complete edge list to network_edges.csv.
+
+Build Graph: Load the .csv into NetworkX as a directed or undirected graph (this is a key design choice you'll justify).
+
+
+
+Phase 2: Network Analysis & Visualization
+
+Centrality Analysis: Run PageRank and Betweenness Centrality. This will identify the "super-connectors" (the Drakes and DJ Khaleds) who bridge different scenes.
+
+Community Detection: Run the Louvain algorithm. This is the main discovery. It will algorithmically find the "scenes" (e.g., the TDE cluster, the Atlanta Trap cluster).
+
+Visualization: Create the A2 deliverables:
+
+Bar charts of the top 10 most central artists.
+
+A clean "ego network" graph of a major artist (like your AI Doi graph).
+
+(At this point, you have completed the "Assignment 2" component.)
+
+Assignment 3 (A3): The Content Analysis & Capstone
+
+
+
+Phase 3: Content (Lyric) Collection
+
+Reuse A2 Data: Load your network_edges.csv, which gives you a master list of all artists in your network.
+
+New Data Collection: Write a robust script that loops through every artist and every song in your network and scrapes the lyrics for all of them.
+
+This is a time-consuming scrape. You'll need to build in time.sleep() to be polite to the server and handle errors.
+
+Save all lyrics to a large lyrics.json file.
+
+
+
+Phase 4: Content Analysis (NLP)
+
+Text Preprocessing: Create a standard NLP pipeline to clean the lyrics:
+
+Remove all non-alphabetic characters.
+
+Tokenize (split into a list of words).
+
+Remove stopwords (e.g., the, a, is).
+
+Lemmatize (e.g., running -> run).
+
+Topic Modeling: Use scikit-learn or gensim to train a Latent Dirichlet Allocation (LDA) model on your entire corpus of cleaned lyrics. This will discover 20-30 abstract "topics" (e.g., Topic A: money, cars, club, ice; Topic B: struggle, hood, police, system).
+
+
+
+Phase 5: The Capstone Synthesis & Final Paper
+
+Merge A2 and A3: This is the final, most important step. You will create a master dataset.
+
+Answer Your Research Question: For each network community you found in Phase 2, you will now analyze its lyrical topic distribution from Phase 4.
+
+Deliver Your Finding: You'll be able to make a data-driven conclusion like: "The 'TDE' network community (from A2) shows a 40% higher prevalence of the 'Social Consciousness' lyrical topic (from A3) than the 'Atlanta' community, which is 60% more focused on the 'Materialism' topic."
+
+Write Paper & Present: You'll have all the data, graphs, and findings for a truly outstanding capstone paper and presentation.
+
+
+
+
+Client ID - CviBnqRZAIy-vIHRDZNwklI8mdXH7K00ErP0pfbywehbuV3f-Bc3-Zx-Nz42qbYX
+Client Secret - 5CM_CEasR9rKrQBGhvZu3hkj7SaqAme_WGybpS6HlZ1mil-RL5q0NdtarK2sqOsMPG0AFTwJEYS60H5PXLmRuQ
+Client Access Token - 4ZZY1TMpG1c-5GHogk_noTp4TVRDeChJqVgxVMr1N2V7SoSQtAsVF1x1XqaXiRH6
+
+
+
+
+
+This is the right mindset. The analysis is the engine; the paper is just the car body you put on top later. If the engine runs well, writing the paper is easy.
+
+Since we are sticking with the Hip-Hop Lyrical Universe project (Genius API), here is the comprehensive, phase-by-phase execution plan.
+
+This plan is designed to be executed sequentially. Phase 1 is the bottleneck (data collection takes time), so start that immediately.
+
+Project Roadmap: The Hip-Hop Lyrical Universe
+Phase 0: Project Infrastructure 🏗️
+Goal: Set up a clean workspace to manage code, data, and version control.
+
+Environment: Ensure your genius_project conda environment (Python 3.11) is active.
+
+Folder Structure: Create a robust directory structure to keep things organized.
+
+Plaintext
+
+hiphop-network-analysis/
+├── data/
+│   ├── raw/           (Raw JSONs from Genius API)
+│   └── processed/     (Cleaned CSVs for Network and NLP)
+├── notebooks/         (Your analysis code)
+├── output/
+│   ├── figures/       (High-res graphs and charts)
+│   └── models/        (Saved LDA models to avoid retraining)
+└── src/               (Optional: helper python scripts)
+Notebook Strategy: We will use a multi-notebook approach to keep logic separate.
+
+01_Data_Collection.ipynb
+
+02_Network_Analysis.ipynb
+
+03_NLP_Topic_Modeling.ipynb
+
+04_Capstone_Synthesis.ipynb
+
+Phase 1: Data Collection (The Harvest) 🕷️
+Goal: Build the raw dataset. This is the most fragile step because it relies on an external API and web scraping. Notebook: 01_Data_Collection.ipynb
+
+Define Seed Artists: Pick 3-4 diverse "pillars" of hip-hop to ensure distinct communities.
+
+Suggestion: Kendrick Lamar (Lyricism/West Coast), Future (Trap/Atlanta), J. Cole (Storytelling/East Coast), Drake (Pop-Rap/Global Bridge).
+
+The Crawl Logic:
+
+For each Seed Artist, get their top ~50 songs.
+
+For each song, extract: Title, Release Date, Featured Artists, and Lyrics.
+
+Recursive Step (The Network Expander): Collect the names of all featured artists. If you have time, get the top 5 songs for those featured artists too (Depth 1.5). Warning: This grows exponentially. Start small.
+
+Error Handling: Implement try/except blocks and time.sleep(1) between requests so Genius doesn't ban you.
+
+Deliverable: Two files in data/processed/:
+
+network_edges.csv: Columns [Source_Artist, Target_Artist, Song_Title]
+
+song_lyrics.csv: Columns [Song_ID, Artist, Title, Lyrics]
+
+Phase 2: Network Analysis (The Skeleton) 🕸️
+Goal: Map the social structure and identify the "scenes" (communities). Notebook: 02_Network_Analysis.ipynb
+
+Graph Construction:
+
+Load network_edges.csv.
+
+Build a graph using NetworkX where Nodes = Artists, Edges = Collaborations.
+
+Centrality Analysis:
+
+Calculate PageRank (Who is the "main character" of the network?).
+
+Calculate Betweenness (Who bridges the gap between Kendrick and Future?).
+
+Community Detection (Crucial):
+
+Run the Louvain Algorithm.
+
+Assign every artist to a Community_ID.
+
+Check: Do the communities make sense? (e.g., Does Community 1 look like "Atlanta Trap" and Community 2 look like "Conscious Rap"?).
+
+Deliverable:
+
+A clean Network Graph visualization (filtered ego network).
+
+A dataframe artist_communities.csv mapping every artist to their community.
+
+Phase 3: NLP & Topic Modeling (The Flesh) 🗣️
+Goal: Analyze the substance of the lyrics using AI. Notebook: 03_NLP_Topic_Modeling.ipynb
+
+Preprocessing (The Grind):
+
+Load song_lyrics.csv.
+
+Clean: Remove bracketed text like [Verse 1], [Chorus].
+
+Tokenize: Split text into words.
+
+Stopwords: Remove common words (the, yeah, like, got) and slang that appears everywhere (e.g., ain't might be a stopword if it doesn't help distinguish topics).
+
+Topic Modeling (LDA):
+
+Use Gensim or SciKit-Learn to run Latent Dirichlet Allocation (LDA).
+
+Hyperparameter Tuning: Try asking for 5 topics, then 10, then 15. Which number gives the most distinct, human-understandable topics?
+
+Topic Labeling:
+
+Look at the top words for "Topic 1". If they are money, cars, benz, label it "Materialism/Flexing".
+
+If "Topic 2" is love, baby, girl, label it "Romance/R&B".
+
+Deliverable: A dataframe song_topics.csv where every song has a % score for each topic. (e.g., "Money Trees" = 60% Struggle, 40% Flexing).
+
+Phase 4: The Synthesis (The Capstone) 🧪
+Goal: Merge Phase 2 and Phase 3 to answer the research question. Notebook: 04_Capstone_Synthesis.ipynb
+
+The Merge: Join your dataframes. Now you have a dataset where every row has:
+
+Artist Name
+
+Network Community (from Phase 2)
+
+Lyrical Topic Distribution (from Phase 3)
+
+The Analysis:
+
+Group by Network Community and calculate the average prevalence of each Lyrical Topic.
+
+Question: Does Community A (Atlanta) have a significantly higher score for the "Flexing" topic than Community B (Conscious Rap)?
+
+Visualization:
+
+Create a Heatmap: X-axis = Communities, Y-axis = Topics. Darker colors = strong alignment.
+
+Create "Topic Radar Charts" for each community.
+
+Deliverable: The core charts and statistical findings that will go into your final PDF report.
