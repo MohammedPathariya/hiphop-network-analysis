@@ -1,0 +1,84 @@
+### **Part 2: The Capstone Paper Outline**
+
+Here is the blueprint for your 8+ page report. I have mapped your specific findings and images to the sections where they belong.
+
+#### **Title:** From Structure to Substance: A Network and Thematic Analysis of the Hip-Hop Lyrical Universe
+
+**Abstract**
+* *Paste the summary we wrote earlier.* (Investigating if social scenes in hip-hop align with lyrical themes using Graph Theory and NLP).
+
+#### **1. Introduction**
+* **Motivation:** Hip-hop is often discussed in terms of "scenes" (Trap, Lyrical, West Coast). Are these real, data-driven clusters, or just marketing labels?
+* **Research Gap:** Previous studies analyze *social networks* (who knows whom) OR *content* (lyrics), but rarely combine them to see if structure dictates content.
+* **Research Questions:**
+    1.  Can we mathematically identify distinct social communities within the hip-hop industry?
+    2.  Do these social communities share a distinct "lyrical DNA"?
+    3.  How do "bridge" artists (like Travis Scott) function compared to "purist" artists (like Nas)?
+
+#### **2. Related Work**
+* *You need 5 citations here. I suggest finding papers on:*
+    1.  **Homophily in Social Networks** (McPherson et al.): The idea that "birds of a feather flock together."
+    2.  **Community Detection** (Blondel et al. - The Louvain Paper): To justify your method.
+    3.  **Topic Modeling** (Blei et al. - The LDA Paper): To justify your NLP.
+    4.  **Network Analysis of Music:** Find a paper that maps Spotify or Last.fm data.
+    5.  **Lyrical Analysis:** Find a paper that analyzes sentiment or vocabulary in rap lyrics.
+
+#### **3. Data Collection**
+* **Data Source:** Genius API (Novel source).
+* **Sampling Strategy:** Explain the "Seed Artist" strategy. You chose 14 pillars representing 4 poles (Lyrical, Trap, Pop, Producers) to ensure the network wasn't just one big blob.
+* **Collection Process:**
+    * **Network:** "1.5-degree crawl" (Seeds -> Songs -> Features).
+    * **Content:** Scraped lyrics for ~700 songs.
+* **Final Stats:** 180 Nodes, 326 Edges, 700 Documents.
+
+#### **4. Methods**
+* **4.1 Network Construction:** Built a Directed Graph (`DiGraph`) where Node = Artist, Edge = Collaboration.
+* **4.2 Network Analysis Metrics:**
+    * Briefly explain **Degree Centrality** (Popularity/Volume).
+    * Briefly explain **Betweenness Centrality** (Influence/Bridging).
+    * **[Insert Equation]:** The formula for Betweenness Centrality.
+    * Explain **Louvain Community Detection** (optimizing modularity).
+* **4.3 Natural Language Processing (NLP):**
+    * Explain the cleaning pipeline (Removal of `[Verse 1]`, custom stopwords like `yeah/uh`, lemmatization).
+    * Explain **LDA Topic Modeling** (k=5 topics).
+
+#### **5. Findings (The Core Section - Use Your Images Here)**
+
+**5.1 The Social Structure of Hip-Hop**
+* *Narrative:* The industry is fully connected (no islands), but highly stratified.
+* **[Insert Image]:** `network_visualization.jpg` (The big map).
+* *Analysis:* Explain the "Core vs. Fringe" layout. The big producers (Kanye) are in the center; the specialists are on the edge.
+* **[Insert Image]:** `centrality_bar_charts.png`.
+* *Analysis:* Discuss **Kanye West** as the volume leader (Degree) and **Travis Scott** as the bridge leader (Betweenness).
+
+**5.2 Strategic Roles: Ego Network Analysis**
+* *Narrative:* Different artists pursue different social strategies.
+* **[Insert Images]:** Create a composite figure of `ego_network_Kanye_West.jpg` (The Curator), `ego_network_Travis_Scott.jpg` (The Bridge), and `ego_network_J._Cole.jpg` (The Purist).
+* *Analysis:* Compare Travis Scott's dense, multi-colored network (connecting Pop + Trap) vs. J. Cole's sparse network (focused on lyricists).
+
+**5.3 The Lyrical Landscape**
+* *Narrative:* The AI discovered 5 distinct themes.
+* **[Insert Image]:** `topic_word_clouds.jpg`.
+* *Analysis:* Define the topics clearly (e.g., Topic 0 = Luxury/Trap, Topic 3 = Conscious/Storytelling).
+
+**5.4 Synthesis: The Alignment of Structure and Substance**
+* *Narrative:* This is the answer to the research question.
+* **[Insert Image]:** `community_topic_heatmap.png`.
+* *Analysis:* This is your "smoking gun."
+    * **Statistically Significant:** Cite the P-value ($p < 0.05$).
+    * **The Split:** Community 1 (Young Thug) is 55% "Ad-lib/Money." Community 4 (Nas) is 62% "Storytelling."
+* **[Insert Image]:** `community_radar_charts.jpg`.
+* *Analysis:* Use this to show the "Fingerprint" of the communities. Show how Drake's community is "well-rounded" (Pop) while Nas's is "spiky" (Specialized).
+
+#### **6. Conclusion**
+* **Summary:** The hip-hop industry is not a monolith. It is composed of distinct "nations" that are defined both by *who* they know and *what* they say.
+* **Implication:** Social structure reinforces lyrical content (Homophily).
+* **Limitations:** Dataset size (700 songs), English-only constraint (no Bollywood), bias toward seed artists.
+* **Future Work:** Analyzing *production* (beat) data to see if "Sound" clusters the same way "Lyrics" do.
+
+#### **References**
+* List your 5+ papers here.
+
+#### **Appendix**
+* **A.1 LLM Usage:** "Generative AI (ChatGPT/Gemini) was used to assist in debugging Python code for API connectivity and formatting LaTeX tables."
+* **A.2 GitHub Link:** [Your Link]
